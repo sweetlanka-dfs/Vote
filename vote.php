@@ -6,9 +6,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo 'OK';
 }
 
-
-var_dump($_POST);
-
  $answer= $_POST['vote'];
 
  //-------------CHECKING AS ARRAY-----------

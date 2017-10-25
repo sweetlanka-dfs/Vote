@@ -6,71 +6,75 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    
+
     <link rel="stylesheet" href="css/fonts.css" />
 </head>
 <body>
 
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="main_wrap">
-				<div class="main_content">
-					<h1>Was this article helpful?</h1>
-					<ul>
-						<li>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main_wrap">
+                <div class="main_content">
+                    <h1 id="change">Was this article helpful?</h1>
+                    <ul>
+                        <li>
                             <form class="answer" >
                                 <button  type="submit" class="btn change_answer" name="vote" value="yes" onclick="myFunction()">
-                                 YES
+                                    YES
                                 </button>
                             </form>
                         </li>
-						<li>
+                        <li>
                             <form class="answer" >
                                 <button type="submit" class="btn change_answer" name="vote" value="no" onclick="myFunction()">
-                                 NO
+                                    NO
                                 </button>
-                           </form>
+                            </form>
                         </li>
-					</ul>
-			     </div>
-		  </div>
-	   </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="css/js.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
-    (function($){
-        function processForm( e ){
-    $.ajax({
-        type: "POST",
-        url: "http://localhost/ArticleVote/form_new/vote.php",
-        dataType: "json",
-        data: {
-            name : value
-        },
-        success: function (msg) {
-            if (msg) {
-                function myFunction() {
-                    document.getElementsByClassName("change_answer").innerHTML = "Thanks for your answer!";
-                }
-            } else {
-                alert("You are foolish for this task!");
+    $(".answer").submit(function (e) {
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/ArticleVote/form_new/vote.php",
+                dataType: "json",
+                data: {
+                    vote: 'yes'
+                },
+                statusCode: {
+                    404: function () {
+                        alert("page not found");
+                    },
+
+                    200: function () {
+                        console.log("success");
+                    }
+                },
+                success: function(data) {
+                    alert(data);
             }
-        },
-
-
+            });
+            e.preventDefault();
     });
-    e.preventDefault();
-    }
 
-    $('.answer').submit( processForm );
-    })(jQuery);
+</script>
+
+<script>
+    function myFunction() {
+        document.getElementById("change").innerHTML = "Thanks for your answer!";
+    }
 </script>
 </body>
 </html>
-
 
 
 
