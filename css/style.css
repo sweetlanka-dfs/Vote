@@ -51,4 +51,11 @@
    background-color: #50808c!important;
 }
 
+.answerInner {
+   color: #50808c;
+   font-family: "HelveticaNeue";
+   font-size: 36px;
+   margin-bottom: 20px;
+
+}
 

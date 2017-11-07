@@ -1,9 +1,17 @@
 <?php
-$db = mysqli_connect('localhost','root','','diamantedesk');
+$host = 'localhost';
+$db   = 'diamantedesk';
+$user = 'root';
+$pass = '';
+$charset = 'utf8';
 
-
-//or die('Error connecting to MySQL server.');
-//echo "Connected to MySQL<br>";
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$opt = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+$pdo = new PDO($dsn, $user, $pass, $opt);
 
 
 /*
