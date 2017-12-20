@@ -29,7 +29,7 @@ try {
     $dsn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "INSERT INTO `articlevote`(`answer`, `ip`, `date`)
     VALUES (:answer, :ipUser, :dt)";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $dsn->prepare($sql);
     $stmt->bindParam(':answer', $answer, PDO::PARAM_STR);
     $stmt->bindParam(':ipUser', $ipUser, PDO::PARAM_STR);
     $stmt->bindParam(':dt', $dt, PDO::PARAM_STR);
