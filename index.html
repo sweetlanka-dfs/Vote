@@ -45,29 +45,51 @@
     $("button.btn").on("click", function (e){
         var el = e.currentTarget;
         var postData = {vote: el.value};
+
         $.ajax({
             type: "POST",
             url: "http://localhost/ArticleVote/form_new/vote.php",
-            dataType: "json",
+            dataType: "text",
             data: postData,
             statusCode: {
-                404: function () {
-                    alert("page not found");
+                0: function () {
+                    document.getElementById("change").innerHTML = "<div class='answerInner'>Oops! Try again!</div>";
+                },
+                400: function () {
+                    document.getElementById("change").innerHTML = "<div class='answerInner'>400 Bad request!</div>";
                 },
 
                 200: function () {
                     document.getElementById("change").innerHTML = "<div class='answerInner'>Thanks for your answer!</div>";
                 }
             },
-            success: function(data) {
-                alert(data);
+
+            success: function myFunction(e) {
+                    console.log(e);
+                },
+            error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 400) {
+                    msg = 'BadRequest. [400]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                console.log({msg});
             }
         });
-    });
-    function myFunction(e) {
-        //document.getElementById("change").innerHTML = "Thanks for your answer!";
-        console.log(e);
-    }
+        });
 </script>
 </body>
 </html>
