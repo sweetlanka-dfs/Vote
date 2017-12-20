@@ -2,9 +2,6 @@
 error_reporting(E_ALL | E_STRICT);
 include_once 'get_Ip.php';
 $answer= filter_input(INPUT_POST,'vote', FILTER_SANITIZE_STRING);
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    echo 'OK';
-}
 
 //---------SET_TIME-----------
 

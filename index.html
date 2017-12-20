@@ -38,10 +38,19 @@
         </div>
     </div>
 </div>
-<script src="css/js.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <script>
+    var $ = jQuery;
+    $(document).ready(function() {
+        $("btn").click(function() {
+            $("btn").removeClass("active");
+            $(this).addClass("active");
+            return false;
+        });
+
+    });
+
     $("button.btn").on("click", function (e){
         var el = e.currentTarget;
         var postData = {vote: el.value};
@@ -49,44 +58,32 @@
         $.ajax({
             type: "POST",
             url: "http://localhost/Vote/vote.php",
-            dataType: "text",
+            dataType: "json",
             data: postData,
             statusCode: {
-                0: function () {
+                0: function(jqXHR, textStatus, errorThrown) {
                     document.getElementById("change").innerHTML = "<div class='answerInner'>Oops! Try again!</div>";
+                    console.log("Status " + textStatus);
+                    console.log("jqXHR Status: " + jqxhr.status + " " + jqxhr.statusText);
                 },
-                400: function () {
-                    document.getElementById("change").innerHTML = "<div class='answerInner'>400 Bad request!</div>";
+                400:  function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                },
+
+                404:  function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                },
+
+                500:  function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
                 },
 
                 200: function () {
+                    function myFunction(e) {
+                        console.log(e);
+                    }
                     document.getElementById("change").innerHTML = "<div class='answerInner'>Thanks for your answer!</div>";
                 }
-            },
-
-            success: function myFunction(e) {
-                    console.log(e);
-                },
-            error: function (jqXHR, exception) {
-                var msg = '';
-                if (jqXHR.status === 0) {
-                    msg = 'Not connect.\n Verify Network.';
-                } else if (jqXHR.status == 404) {
-                    msg = 'Requested page not found. [404]';
-                } else if (jqXHR.status == 400) {
-                    msg = 'BadRequest. [400]';
-                } else if (jqXHR.status == 500) {
-                    msg = 'Internal Server Error [500].';
-                } else if (exception === 'parsererror') {
-                    msg = 'Requested JSON parse failed.';
-                } else if (exception === 'timeout') {
-                    msg = 'Time out error.';
-                } else if (exception === 'abort') {
-                    msg = 'Ajax request aborted.';
-                } else {
-                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                }
-                console.log({msg});
             }
         });
         });
